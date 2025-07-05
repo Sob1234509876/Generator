@@ -1,0 +1,13 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        mavenCentral()
+        mavenLocal()
+    }
+}
+
+plugins {
+    id 'io.github.sob.tool.developer.settings' version '1.0a'
+}
+
+rootProject.name = 'generator'

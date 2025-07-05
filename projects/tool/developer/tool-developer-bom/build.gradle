@@ -1,0 +1,24 @@
+plugins {
+    id 'java-platform'
+    id 'maven-publish'
+}
+
+group = 'io.github.sob'
+version = '1.0a'
+
+javaPlatform {
+    allowDependencies()
+}
+
+dependencies {
+    api platform(project(':projects:root-bom'))
+}
+
+publishing {
+    repositories {
+        mavenLocal()
+    }
+    publications {
+        create('bom', MavenPublication)
+    }
+}

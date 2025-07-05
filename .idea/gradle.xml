@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
+  <component name="GradleSettings">
+    <option name="linkedExternalProjectsSettings">
+      <GradleProjectSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleHome" value="$PROJECT_DIR$/../../../program files/gradle-8.9" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/projects" />
+            <option value="$PROJECT_DIR$/projects/root-bom" />
+            <option value="$PROJECT_DIR$/projects/tool" />
+            <option value="$PROJECT_DIR$/projects/tool/developer" />
+            <option value="$PROJECT_DIR$/projects/tool/developer/tool-developer" />
+            <option value="$PROJECT_DIR$/projects/tool/developer/tool-developer-bom" />
+            <option value="$PROJECT_DIR$/projects/tool/developer/tool-developer-builds" />
+            <option value="$PROJECT_DIR$/projects/tool/developer/tool-developer-dependencies" />
+            <option value="$PROJECT_DIR$/projects/tool/developer/tool-developer-gradle-plugin" />
+            <option value="$PROJECT_DIR$/projects/tool/developer/tool-developer-plugins" />
+            <option value="$PROJECT_DIR$/projects/tool/developer/tool-developer-publishing" />
+            <option value="$PROJECT_DIR$/projects/tool/developer/tool-developer-repositories" />
+            <option value="$PROJECT_DIR$/projects/tool/developer/tool-developer-settings" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+    </option>
+  </component>
+</project>
