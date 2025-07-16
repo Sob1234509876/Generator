@@ -622,9 +622,32 @@
  *                      END OF TERMS AND CONDITIONS
  */
 
-plugins {
-    id 'io.github.sob.tool-developer-development-platform' version '1.0a'
-}
+package io.github.sob.tool.developer.repository;
 
-group = 'io.github.sob'
-version = '1.0a'
+import io.github.sob.tool.developer.repository.mirror.Mirror;
+import lombok.NonNull;
+import org.gradle.api.Plugin;
+import org.gradle.api.Project;
+
+import java.util.Locale;
+
+/**
+ * A plugin for fast configurations on repositories.
+ *
+ * @author Sob1234509876_2
+ * @since 1.0a
+ */
+public class RepositoryPlugin implements Plugin<Project> {
+    @Override
+    public void apply(@NonNull Project target) {
+        var repositories = target.getRepositories();
+        repositories.mavenCentral();
+        repositories.mavenLocal();
+        repositories.google();
+        repositories.gradlePluginPortal();
+
+        Mirror.valueOf(Locale.getDefault()
+                        .toString())
+                .configure(repositories);
+    }
+}

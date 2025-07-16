@@ -622,9 +622,63 @@
  *                      END OF TERMS AND CONDITIONS
  */
 
-plugins {
-    id 'io.github.sob.tool-developer-development-platform' version '1.0a'
-}
+package io.github.sob.tool.developer.setting;
 
-group = 'io.github.sob'
-version = '1.0a'
+import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
+import org.gradle.api.Plugin;
+import org.gradle.api.Project;
+import org.gradle.api.initialization.Settings;
+
+import java.io.File;
+import java.util.*;
+
+/**
+ * A plugin for fast configurations on settings.gradle(.kts). Includes all the projects under the root project's ":projects" folder.
+ *
+ * @author Sob1234509876_2
+ * @since 1.0a
+ */
+@Slf4j
+public class SettingPlugin implements Plugin<Settings> {
+    @Override
+    public void apply(@NonNull Settings target) {
+        var root = target.getRootDir();
+        var projects = listProjects(root);
+
+        log.debug("Found projects: {}", projects);
+
+        projects.stream()
+                .map(s -> s.replace(File.separatorChar, ':'))
+                .forEach(target::include);
+    }
+
+    /**
+     * Gets all the projects under the root project's folder.
+     *
+     * @param root The root folder.
+     * @return The projects' path for including.
+     * @since 1.0a
+     */
+    @NonNull
+    private List<@NonNull String> listProjects(@NonNull File root) {
+        var queue = new LinkedList<>(Collections.singleton("projects"));
+        var results = new LinkedList<String>();
+
+        while (!queue.isEmpty()) {
+            var path = queue.poll();
+            var file = new File(root, path);
+
+            if (!file.isDirectory())
+                continue;
+            if (new File(file, Project.DEFAULT_BUILD_FILE).isFile())
+                results.add(path);
+            else
+                Arrays.stream(Objects.requireNonNull(file.listFiles()))
+                        .map(f -> path + File.separator + f.getName())
+                        .forEach(queue::add);
+        }
+
+        return Collections.unmodifiableList(results);
+    }
+}

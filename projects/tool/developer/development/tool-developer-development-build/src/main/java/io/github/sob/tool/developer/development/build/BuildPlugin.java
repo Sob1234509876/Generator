@@ -622,9 +622,25 @@
  *                      END OF TERMS AND CONDITIONS
  */
 
-plugins {
-    id 'io.github.sob.tool-developer-development-platform' version '1.0a'
-}
+package io.github.sob.tool.developer.development.build;
 
-group = 'io.github.sob'
-version = '1.0a'
+import io.github.sob.tool.developer.dependency.DependencyPlugin;
+import io.github.sob.tool.developer.repository.RepositoryPlugin;
+import org.gradle.api.Plugin;
+import org.gradle.api.Project;
+import org.jetbrains.annotations.NotNull;
+
+/**
+ * A plugin for fast configurations on build.gradle(.kts).
+ *
+ * @author Sob1234509876_2
+ * @since 1.0a
+ */
+public class BuildPlugin implements Plugin<Project> {
+    @Override
+    public void apply(@NotNull Project target) {
+        var pluginManager = target.getPluginManager();
+        pluginManager.apply(RepositoryPlugin.class);
+        pluginManager.apply(DependencyPlugin.class);
+    }
+}

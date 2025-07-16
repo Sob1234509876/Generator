@@ -622,9 +622,47 @@
  *                      END OF TERMS AND CONDITIONS
  */
 
-plugins {
-    id 'io.github.sob.tool-developer-development-platform' version '1.0a'
-}
+package io.github.sob.tool.developer.dependency;
 
-group = 'io.github.sob'
-version = '1.0a'
+import lombok.NonNull;
+import org.gradle.api.Plugin;
+import org.gradle.api.Project;
+import org.gradle.api.plugins.ExtraPropertiesExtension;
+
+import java.util.Objects;
+
+/**
+ * A plugin for fast configurations on dependencies.
+ *
+ * @author Sob1234509876_2
+ * @since 1.0a
+ */
+public class DependencyPlugin implements Plugin<Project> {
+
+    /**
+     * The default bom name separator. Separates the project paths.
+     *
+     * @since 1.0a
+     */
+    public static final String DEFAULT_BOM_NAME_SEPARATOR = "-";
+
+    @Override
+    public void apply(@NonNull Project target) {
+        var parent = Objects.requireNonNull(target.getParent());
+        var bom = target.getDependencies()
+                .platform(parent.project(getBomName(parent)));
+
+        target.getExtensions()
+                .getByType(ExtraPropertiesExtension.class)
+                .set("bom", bom);
+    }
+
+    @NonNull
+    private String getBomName(@NonNull Project parent) {
+        var path = parent.getPath();
+
+        var i = path.indexOf(Project.PATH_SEPARATOR, 1);
+        return path.substring(i + 1)
+                .replace(Project.PATH_SEPARATOR, DEFAULT_BOM_NAME_SEPARATOR) + "-bom";
+    }
+}

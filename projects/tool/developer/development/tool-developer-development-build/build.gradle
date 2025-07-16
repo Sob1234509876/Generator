@@ -621,10 +621,32 @@
  *
  *                      END OF TERMS AND CONDITIONS
  */
+//file:noinspection GroovyAssignabilityCheck
+//file:noinspection DependencyNotationArgument
 
 plugins {
-    id 'io.github.sob.tool-developer-development-platform' version '1.0a'
+    id 'io.github.sob.tool-developer-development-gradle-plugin' version '1.0a'
 }
 
 group = 'io.github.sob'
 version = '1.0a'
+
+dependencies {
+    implementation bom
+    annotationProcessor bom
+
+    implementation 'org.projectlombok:lombok'
+    implementation parent.parent.project('tool-developer-repository')
+    implementation parent.parent.project('tool-developer-dependency')
+
+    annotationProcessor 'org.projectlombok:lombok'
+}
+
+gradlePlugin {
+    plugins {
+        build {
+            id = 'io.github.sob.tool-developer-development-build'
+            implementationClass = 'io.github.sob.tool.developer.development.build.BuildPlugin'
+        }
+    }
+}

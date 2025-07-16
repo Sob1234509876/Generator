@@ -622,9 +622,25 @@
  *                      END OF TERMS AND CONDITIONS
  */
 
-plugins {
-    id 'io.github.sob.tool-developer-development-platform' version '1.0a'
-}
+package io.github.sob.tool.developer.development.gradle.plugin;
 
-group = 'io.github.sob'
-version = '1.0a'
+import com.gradle.publish.PublishPlugin;
+import io.github.sob.tool.developer.development.build.BuildPlugin;
+import org.gradle.api.Plugin;
+import org.gradle.api.Project;
+import org.jetbrains.annotations.NotNull;
+
+/**
+ * A plugin for fast development on Gradle plugins.
+ *
+ * @author Sob1234509876_3
+ * @since 1.0a
+ */
+public class GradlePluginPlugin implements Plugin<Project> {
+    @Override
+    public void apply(@NotNull Project target) {
+        var pluginManager = target.getPluginManager();
+        pluginManager.apply(PublishPlugin.class);
+        pluginManager.apply(BuildPlugin.class);
+    }
+}

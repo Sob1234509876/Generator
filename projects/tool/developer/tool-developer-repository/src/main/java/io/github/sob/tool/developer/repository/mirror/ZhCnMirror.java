@@ -622,9 +622,28 @@
  *                      END OF TERMS AND CONDITIONS
  */
 
-plugins {
-    id 'io.github.sob.tool-developer-development-platform' version '1.0a'
-}
+package io.github.sob.tool.developer.repository.mirror;
 
-group = 'io.github.sob'
-version = '1.0a'
+import lombok.NonNull;
+import org.gradle.api.artifacts.dsl.RepositoryHandler;
+
+/**
+ * The Chinese mirror. Adds the Alibaba Public Repository.
+ *
+ * @author Sob1234509876_2
+ * @since 1.0a
+ */
+public class ZhCnMirror implements Mirror {
+
+    /**
+     * The URL of the Alibaba Public Repository.
+     *
+     * @since 1.0a
+     */
+    public static final String ALIBABA_PUBLIC_REPOSITORY = "https://maven.aliyun.com/repository/public";
+
+    @Override
+    public void configure(@NonNull RepositoryHandler handler) {
+        handler.maven(mavenArtifactRepository -> mavenArtifactRepository.setUrl(ALIBABA_PUBLIC_REPOSITORY));
+    }
+}

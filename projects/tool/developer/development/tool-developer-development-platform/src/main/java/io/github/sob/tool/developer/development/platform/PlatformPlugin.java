@@ -622,9 +622,65 @@
  *                      END OF TERMS AND CONDITIONS
  */
 
-plugins {
-    id 'io.github.sob.tool-developer-development-platform' version '1.0a'
-}
+package io.github.sob.tool.developer.development.platform;
 
-group = 'io.github.sob'
-version = '1.0a'
+import lombok.NonNull;
+import org.gradle.api.Plugin;
+import org.gradle.api.Project;
+import org.gradle.api.plugins.JavaPlatformExtension;
+import org.gradle.api.publish.PublishingExtension;
+import org.gradle.api.publish.maven.MavenPublication;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
+
+/**
+ * A plugin for fast development on platforms (boms).
+ *
+ * @author Sob1234509876_2
+ * @since 1.0a
+ */
+public class PlatformPlugin implements Plugin<Project> {
+
+    /**
+     * The default bom name separator. Separates the project paths.
+     *
+     * @since 1.0a
+     */
+    public static final String DEFAULT_BOM_NAME_SEPARATOR = "-";
+
+    @Override
+    public void apply(@NotNull Project target) {
+        var pluginManager = target.getPluginManager();
+        pluginManager.apply("java-platform");
+        pluginManager.apply("maven-publish");
+
+        var extensions = target.getExtensions();
+
+        extensions.getByType(JavaPlatformExtension.class)
+                .allowDependencies();
+
+        var dependencies = target.getDependencies();
+        var pp = Objects.requireNonNull(Objects.requireNonNull(target.getParent())
+                .getParent());
+        if (pp.equals(target.getRootProject()
+                .project("projects")))
+            dependencies.add("api", dependencies.platform(pp.project("bom")));
+        else if (!pp.equals(target.getRootProject()))
+            dependencies.add("api", dependencies.platform(pp.project(getBomName(pp))));
+
+        extensions.getByType(PublishingExtension.class)
+                .publications(publications -> publications.create("this", MavenPublication.class,
+                        mavenPublication -> mavenPublication.from(target.getComponents()
+                                .getByName("javaPlatform"))));
+    }
+
+    @NonNull
+    private String getBomName(@NonNull Project parent) {
+        var path = parent.getPath();
+
+        var i = path.indexOf(Project.PATH_SEPARATOR, 1);
+        return path.substring(i + 1)
+                .replace(Project.PATH_SEPARATOR, DEFAULT_BOM_NAME_SEPARATOR) + "-bom";
+    }
+}

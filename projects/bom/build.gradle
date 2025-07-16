@@ -621,6 +621,7 @@
  *
  *                      END OF TERMS AND CONDITIONS
  */
+//file:noinspection ForeignDelegate
 
 plugins {
     id 'io.github.sob.tool-developer-development-platform' version '1.0a'
@@ -628,3 +629,9 @@ plugins {
 
 group = 'io.github.sob'
 version = '1.0a'
+
+dependencies {
+    constraints {
+        api 'org.projectlombok:lombok:1.18.38'
+    }
+}

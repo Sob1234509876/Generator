@@ -622,9 +622,10 @@
  *                      END OF TERMS AND CONDITIONS
  */
 
-plugins {
-    id 'io.github.sob.tool-developer-development-platform' version '1.0a'
-}
-
-group = 'io.github.sob'
-version = '1.0a'
+/**
+ * The Mirror Model. A model for configuring mirror repositories.
+ *
+ * @author Sob1234509876_2
+ * @since 1.0a
+ */
+package io.github.sob.tool.developer.repository.mirror;

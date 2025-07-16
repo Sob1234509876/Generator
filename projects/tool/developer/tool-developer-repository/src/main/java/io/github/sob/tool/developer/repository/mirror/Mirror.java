@@ -622,9 +622,37 @@
  *                      END OF TERMS AND CONDITIONS
  */
 
-plugins {
-    id 'io.github.sob.tool-developer-development-platform' version '1.0a'
-}
+package io.github.sob.tool.developer.repository.mirror;
 
-group = 'io.github.sob'
-version = '1.0a'
+import lombok.NonNull;
+import org.gradle.api.artifacts.dsl.RepositoryHandler;
+
+/**
+ * The Mirror Model's interface.
+ *
+ * @author Sob1234509876_2
+ * @since 1.0a
+ */
+public interface Mirror {
+    /**
+     * Configures the repository handler.
+     *
+     * @param handler The repository handler.
+     * @since 1.0a
+     */
+    void configure(@NonNull RepositoryHandler handler);
+
+    /**
+     * Gets the mirror of the given locale value. Default {@link DefaultMirror}.
+     *
+     * @param value The locale value.
+     * @return The mirror. Default {@link DefaultMirror}.
+     * @since 1.0a
+     */
+    static Mirror valueOf(@NonNull String value) {
+        if (value.equalsIgnoreCase("zh_CN"))
+            return new ZhCnMirror();
+        else
+            return new DefaultMirror();
+    }
+}

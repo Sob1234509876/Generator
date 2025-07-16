@@ -622,9 +622,20 @@
  *                      END OF TERMS AND CONDITIONS
  */
 
-plugins {
-    id 'io.github.sob.tool-developer-development-platform' version '1.0a'
-}
+package io.github.sob.tool.developer.repository.mirror;
 
-group = 'io.github.sob'
-version = '1.0a'
+import lombok.NonNull;
+import org.gradle.api.artifacts.dsl.RepositoryHandler;
+
+/**
+ * The default mirror. Does nothing
+ *
+ * @author Sob1234509876_2
+ * @since 1.0a
+ */
+public class DefaultMirror implements Mirror {
+    @Override
+    public void configure(@NonNull RepositoryHandler handler) {
+
+    }
+}

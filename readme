@@ -1,2 +1,2 @@
 # Generator
-A source code generator & Gradle project initializer plugin project.
+A source code generator & Gradle project initializer plugin project. The tool-developer series plugins work only on plugins under the folder ":projects", sorry... (May change one day, but currently I'll stick to this).
