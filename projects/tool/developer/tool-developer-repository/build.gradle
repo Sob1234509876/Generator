@@ -642,6 +642,12 @@ dependencies {
 gradlePlugin {
     plugins {
         repository {
+            website = 'http://sob1234509876.github.io/'
+            vcsUrl = 'https://github.com/Sob1234509876/Generator/'
+            displayName = 'Repository Developer Tool Gradle Plugin'
+            description = 'A plugin for fast configurations on repositories.'
+            tags = ['Developer Tool']
+
             id = 'io.github.sob.tool-developer-repository'
             implementationClass = 'io.github.sob.tool.developer.repository.RepositoryPlugin'
         }

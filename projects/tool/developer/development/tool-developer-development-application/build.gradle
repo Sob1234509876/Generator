@@ -645,6 +645,12 @@ dependencies {
 gradlePlugin {
     plugins {
         application {
+            website = 'http://sob1234509876.github.io/'
+            vcsUrl = 'https://github.com/Sob1234509876/Generator/'
+            displayName = 'Application Development Developer Tool Gradle Plugin'
+            description = 'A plugin for fast configurations on library projects.'
+            tags = ['Developer Tool']
+
             id = 'io.github.sob.tool-developer-development-application'
             implementationClass = 'io.github.sob.tool.developer.development.application.ApplicationPlugin'
         }

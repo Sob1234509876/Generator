@@ -642,6 +642,12 @@ dependencies {
 gradlePlugin {
     plugins {
         platform {
+            website = 'http://sob1234509876.github.io/'
+            vcsUrl = 'https://github.com/Sob1234509876/Generator/'
+            displayName = 'Platform Development Developer Tool Gradle Plugin'
+            description = 'A plugin for fast development on platforms (boms).'
+            tags = ['Developer Tool']
+
             id = 'io.github.sob.tool-developer-development-platform'
             implementationClass = 'io.github.sob.tool.developer.development.platform.PlatformPlugin'
         }

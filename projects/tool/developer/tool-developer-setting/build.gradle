@@ -642,6 +642,12 @@ dependencies {
 gradlePlugin {
     plugins {
         setting {
+            website = 'http://sob1234509876.github.io/'
+            vcsUrl = 'https://github.com/Sob1234509876/Generator/'
+            displayName = 'Setting Developer Tool Gradle Plugin'
+            description = 'A plugin for fast configurations on settings.gradle(.kts). Includes all the projects under the root project\'s ":projects" folder.'
+            tags = ['Developer Tool']
+
             id = 'io.github.sob.tool-developer-setting'
             implementationClass = 'io.github.sob.tool.developer.setting.SettingPlugin'
         }
