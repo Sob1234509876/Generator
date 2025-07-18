@@ -621,17 +621,17 @@
  *
  *                      END OF TERMS AND CONDITIONS
  */
-
-pluginManagement {
-    repositories {
-        mavenLocal()
-        gradlePluginPortal()
-        mavenCentral()
-    }
-}
+//file:noinspection ForeignDelegate
 
 plugins {
-    id 'io.github.sob1234509876.generator.projects.plugin.setting' version '1.1a'
+    id 'io.github.sob1234509876.generator.projects.plugin.platform' version '1.0a'
 }
 
-rootProject.name = 'generator'
+group = 'io.github.sob1234509876.generator'
+version = '1.0a'
+
+dependencies {
+    constraints {
+        api 'org.projectlombok:lombok:1.18.38'
+    }
+}

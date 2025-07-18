@@ -622,16 +622,77 @@
  *                      END OF TERMS AND CONDITIONS
  */
 
-pluginManagement {
-    repositories {
-        mavenLocal()
-        gradlePluginPortal()
-        mavenCentral()
+package io.github.sob1234509876.generator.projects.plugin.project;
+
+import com.moandjiezana.toml.Toml;
+import lombok.NonNull;
+import org.gradle.api.Plugin;
+import org.gradle.api.Project;
+import org.gradle.api.artifacts.dsl.RepositoryHandler;
+import org.gradle.api.plugins.ExtraPropertiesExtension;
+
+import java.io.InputStreamReader;
+import java.util.Collections;
+import java.util.Locale;
+import java.util.Objects;
+
+/**
+ * A plugin for fast configurations on projects.
+ *
+ * @author Sob1234509876_2
+ * @version 1.0a
+ */
+public class ProjectPlugin implements Plugin<Project> {
+
+    /**
+     * The resource path of the mirrors toml file.
+     *
+     * @since 1.0a
+     */
+    public static final String MIRRORS_TOML_RESOURCE_PATH = "mirrors.toml";
+
+    @Override
+    public void apply(@NonNull Project target) {
+        var pluginManager = target.getPluginManager();
+
+        if (!pluginManager.hasPlugin("maven-publish"))
+            pluginManager.apply("maven-publish");
+
+        var repositories = target.getRepositories();
+
+        repositories.mavenLocal();
+        repositories.mavenCentral();
+        repositories.gradlePluginPortal();
+        repositories.google();
+        applyMirrors(repositories);
+
+        var ext = target.getExtensions()
+                .getByType(ExtraPropertiesExtension.class);
+        var tmp = target.getParent();
+
+        while (tmp != null) {
+            if (tmp.findProject("bom") != null) {
+                ext.set("bom", target.getDependencies()
+                        .platform(tmp.project("bom")));
+            }
+            tmp = tmp.getParent();
+        }
+    }
+
+    /**
+     * A method for applying mirrors according to the locale of the user's machine.
+     *
+     * @param repositories The repository handler.
+     * @since 1.0a
+     */
+    private void applyMirrors(@NonNull RepositoryHandler repositories) {
+        var toml = new Toml().read(new InputStreamReader(Objects.requireNonNull(ProjectPlugin.class
+                .getClassLoader()
+                .getResourceAsStream(MIRRORS_TOML_RESOURCE_PATH))));
+        var mirrors = toml.<String>getList(Locale.getDefault()
+                .toString(), Collections.emptyList());
+
+        for (var m : mirrors)
+            repositories.maven(repository -> repository.setUrl(m));
     }
 }
-
-plugins {
-    id 'io.github.sob1234509876.generator.projects.plugin.setting' version '1.1a'
-}
-
-rootProject.name = 'generator'

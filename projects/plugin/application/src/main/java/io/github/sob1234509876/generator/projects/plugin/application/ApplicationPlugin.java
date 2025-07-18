@@ -622,16 +622,40 @@
  *                      END OF TERMS AND CONDITIONS
  */
 
-pluginManagement {
-    repositories {
-        mavenLocal()
-        gradlePluginPortal()
-        mavenCentral()
+package io.github.sob1234509876.generator.projects.plugin.application;
+
+import io.github.sob1234509876.generator.projects.plugin.project.ProjectPlugin;
+import lombok.NonNull;
+import org.gradle.api.Plugin;
+import org.gradle.api.Project;
+import org.gradle.api.publish.PublishingExtension;
+import org.gradle.api.publish.maven.MavenPublication;
+
+/**
+ * A plugin for fast configurations on application projects.
+ *
+ * @author Sob1234509876_2
+ * @version 1.0a
+ */
+public class ApplicationPlugin implements Plugin<Project> {
+    @Override
+    public void apply(@NonNull Project target) {
+        var pluginManager = target.getPluginManager();
+
+        if (!pluginManager.hasPlugin("io.github.sob1234509876.generator.projects.plugin.project"))
+            pluginManager.apply(ProjectPlugin.class);
+        if (!pluginManager.hasPlugin("java"))
+            pluginManager.apply("java");
+        if (!pluginManager.hasPlugin("application"))
+            pluginManager.apply("application");
+
+        var publications = target.getExtensions()
+                .getByType(PublishingExtension.class)
+                .getPublications();
+
+        publications.create("application",
+                MavenPublication.class,
+                mavenPublication -> mavenPublication.from(target.getComponents()
+                        .getByName("java")));
     }
 }
-
-plugins {
-    id 'io.github.sob1234509876.generator.projects.plugin.setting' version '1.1a'
-}
-
-rootProject.name = 'generator'

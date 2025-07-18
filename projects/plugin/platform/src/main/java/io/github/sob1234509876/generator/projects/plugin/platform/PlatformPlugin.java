@@ -622,16 +622,61 @@
  *                      END OF TERMS AND CONDITIONS
  */
 
-pluginManagement {
-    repositories {
-        mavenLocal()
-        gradlePluginPortal()
-        mavenCentral()
+package io.github.sob1234509876.generator.projects.plugin.platform;
+
+import io.github.sob1234509876.generator.projects.plugin.project.ProjectPlugin;
+import lombok.NonNull;
+import org.gradle.api.Plugin;
+import org.gradle.api.Project;
+import org.gradle.api.plugins.JavaPlatformExtension;
+import org.gradle.api.publish.PublishingExtension;
+import org.gradle.api.publish.maven.MavenPublication;
+
+/**
+ * A plugin for fast configurations on platform (bom) projects.
+ *
+ * @author Sob1234509876_2
+ * @version 1.0a
+ */
+public class PlatformPlugin implements Plugin<Project> {
+    @Override
+    public void apply(@NonNull Project target) {
+        var pluginManager = target.getPluginManager();
+
+        if (!pluginManager.hasPlugin("io.github.sob1234509876.generator.projects.plugin.project"))
+            pluginManager.apply(ProjectPlugin.class);
+        if (!pluginManager.hasPlugin("java-platform"))
+            pluginManager.apply("java-platform");
+
+        var javaPlatform = target.getExtensions()
+                .getByType(JavaPlatformExtension.class);
+
+        javaPlatform.allowDependencies();
+
+        var dependencies = target.getDependencies();
+        var tmp = target.getParent();
+
+        while (tmp != null) {
+            if (tmp.getParent() != null &&
+                    tmp.getParent()
+                            .findProject("bom") != null) {
+                dependencies.add("api", dependencies.platform(tmp.getParent()
+                        .project("bom")));
+                break;
+            }
+            if (tmp.getParent() == null)
+                break;
+            else
+                tmp = tmp.getParent();
+        }
+
+        var publications = target.getExtensions()
+                .getByType(PublishingExtension.class)
+                .getPublications();
+
+        publications.create("platform",
+                MavenPublication.class,
+                mavenPublication -> mavenPublication.from(target.getComponents()
+                        .getByName("javaPlatform")));
     }
 }
-
-plugins {
-    id 'io.github.sob1234509876.generator.projects.plugin.setting' version '1.1a'
-}
-
-rootProject.name = 'generator'

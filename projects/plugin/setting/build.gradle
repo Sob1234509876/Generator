@@ -621,17 +621,28 @@
  *
  *                      END OF TERMS AND CONDITIONS
  */
-
-pluginManagement {
-    repositories {
-        mavenLocal()
-        gradlePluginPortal()
-        mavenCentral()
-    }
-}
+//file:noinspection GroovyAssignabilityCheck
 
 plugins {
-    id 'io.github.sob1234509876.generator.projects.plugin.setting' version '1.1a'
+    id 'io.github.sob1234509876.generator.projects.plugin.gradle-plugin' version '1.0a'
 }
 
-rootProject.name = 'generator'
+group = 'io.github.sob1234509876.generator.projects.plugin'
+version = '1.1a'
+
+dependencies {
+    implementation bom
+    annotationProcessor bom
+
+    implementation 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+}
+
+gradlePlugin {
+    plugins {
+        setting {
+            id = 'io.github.sob1234509876.generator.projects.plugin.setting'
+            implementationClass = 'io.github.sob1234509876.generator.projects.plugin.setting.SettingPlugin'
+        }
+    }
+}

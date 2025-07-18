@@ -621,17 +621,19 @@
  *
  *                      END OF TERMS AND CONDITIONS
  */
-
-pluginManagement {
-    repositories {
-        mavenLocal()
-        gradlePluginPortal()
-        mavenCentral()
-    }
-}
+//file:noinspection DependencyNotationArgument
 
 plugins {
-    id 'io.github.sob1234509876.generator.projects.plugin.setting' version '1.1a'
+    id 'io.github.sob1234509876.generator.projects.plugin.library' version '1.0a'
 }
 
-rootProject.name = 'generator'
+group = 'io.github.sob1234509876.generator.projects.generator.java'
+version = '1.0a'
+
+dependencies {
+    implementation bom
+    annotationProcessor bom
+
+    implementation 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+}

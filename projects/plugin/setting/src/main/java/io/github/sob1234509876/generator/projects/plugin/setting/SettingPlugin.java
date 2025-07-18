@@ -622,16 +622,81 @@
  *                      END OF TERMS AND CONDITIONS
  */
 
-pluginManagement {
-    repositories {
-        mavenLocal()
-        gradlePluginPortal()
-        mavenCentral()
+package io.github.sob1234509876.generator.projects.plugin.setting;
+
+import lombok.NonNull;
+import org.gradle.api.Plugin;
+import org.gradle.api.Project;
+import org.gradle.api.initialization.Settings;
+
+import java.io.File;
+import java.util.*;
+
+/**
+ * A plugin for fast configurations on settings.gradle(.kts).
+ *
+ * @author Sob1234509876_2
+ * @version 1.1a
+ * @since 1.0a
+ */
+public class SettingPlugin implements Plugin<Settings> {
+    @Override
+    public void apply(@NonNull Settings target) {
+        var repositories = target.getPluginManagement()
+                .getRepositories();
+        repositories.gradlePluginPortal();
+        repositories.mavenLocal();
+
+        var projects = listProjects(target.getRootDir());
+        projects.forEach(target::include);
+    }
+
+    /**
+     * Gets all the projects under the root project's folder.
+     *
+     * @param root The root folder.
+     * @return The projects' path for including.
+     * @since 1.0a
+     */
+    @NonNull
+    private List<@NonNull String> listProjects(@NonNull File root) {
+        // Standard BFS
+        var queue = new LinkedList<>(Collections.singleton(""));
+        var results = new LinkedList<String>();
+
+        while (!queue.isEmpty()) {
+            var path = queue.poll();
+            var file = new File(root, path);
+
+            if (!isValidFile(file))
+                continue;
+            if (new File(file, Project.DEFAULT_BUILD_FILE).isFile())
+                results.add(path);
+            else
+                Arrays.stream(Objects.requireNonNull(file.listFiles()))
+                        .map(f -> path + File.separator + f.getName())
+                        .forEach(queue::add);
+        }
+
+        return results.stream()
+                .map(s -> s.replace(File.separator, Project.PATH_SEPARATOR))
+                .toList();
+    }
+
+    /**
+     * A method for determining a file is a valid file for finding project directories.
+     *
+     * @param file The file.
+     * @return The result of determining the file is or isn't a valid file.
+     * @since 1.1a
+     */
+    private boolean isValidFile(@NonNull File file) {
+        if (!file.isDirectory())
+            return false;
+        if (file.getName()
+                .startsWith("."))
+            return false;
+        return !file.getName()
+                .equals(Project.DEFAULT_BUILD_DIR_NAME);
     }
 }
-
-plugins {
-    id 'io.github.sob1234509876.generator.projects.plugin.setting' version '1.1a'
-}
-
-rootProject.name = 'generator'

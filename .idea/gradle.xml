@@ -9,24 +9,18 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/bom" />
             <option value="$PROJECT_DIR$/projects" />
-            <option value="$PROJECT_DIR$/projects/bom" />
             <option value="$PROJECT_DIR$/projects/generator" />
-            <option value="$PROJECT_DIR$/projects/generator/generator-bom" />
-            <option value="$PROJECT_DIR$/projects/tool" />
-            <option value="$PROJECT_DIR$/projects/tool/developer" />
-            <option value="$PROJECT_DIR$/projects/tool/developer/development" />
-            <option value="$PROJECT_DIR$/projects/tool/developer/development/tool-developer-development-application" />
-            <option value="$PROJECT_DIR$/projects/tool/developer/development/tool-developer-development-bom" />
-            <option value="$PROJECT_DIR$/projects/tool/developer/development/tool-developer-development-build" />
-            <option value="$PROJECT_DIR$/projects/tool/developer/development/tool-developer-development-gradle-plugin" />
-            <option value="$PROJECT_DIR$/projects/tool/developer/development/tool-developer-development-library" />
-            <option value="$PROJECT_DIR$/projects/tool/developer/development/tool-developer-development-platform" />
-            <option value="$PROJECT_DIR$/projects/tool/developer/tool-developer-bom" />
-            <option value="$PROJECT_DIR$/projects/tool/developer/tool-developer-dependency" />
-            <option value="$PROJECT_DIR$/projects/tool/developer/tool-developer-repository" />
-            <option value="$PROJECT_DIR$/projects/tool/developer/tool-developer-setting" />
-            <option value="$PROJECT_DIR$/projects/tool/tool-bom" />
+            <option value="$PROJECT_DIR$/projects/generator/java" />
+            <option value="$PROJECT_DIR$/projects/generator/java/java-17" />
+            <option value="$PROJECT_DIR$/projects/plugin" />
+            <option value="$PROJECT_DIR$/projects/plugin/application" />
+            <option value="$PROJECT_DIR$/projects/plugin/gradle-plugin" />
+            <option value="$PROJECT_DIR$/projects/plugin/library" />
+            <option value="$PROJECT_DIR$/projects/plugin/platform" />
+            <option value="$PROJECT_DIR$/projects/plugin/project" />
+            <option value="$PROJECT_DIR$/projects/plugin/setting" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="true" />
